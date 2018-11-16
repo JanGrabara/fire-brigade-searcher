@@ -1,0 +1,46 @@
+<%if @search.errors.any? %>
+     <%@search.errors.full_messages.each do|msg| %>
+          <div class="alert alert-danger">
+            <%=msg%>
+          </div>
+     <%end%>
+<%end%>
+
+
+<h1>Search fire stations
+
+<%= form_tag(home_path, method: "get") do %>
+<p>
+  <%= text_field_tag(:city,"#{@search.city}", class:'form-control', placeholder: 'City') %>
+<p>
+<p>
+  <%= text_field_tag(:street,"#{@search.street}", class:'form-control', placeholder: 'Street') %>
+<p>
+<p>
+  <%= text_field_tag(:radius,"#{@search.radius}", class:'form-control', placeholder: 'Radius') %>
+<p>
+  <%= submit_tag("Search", class: 'btn btn-primary') %>
+<% end %>
+
+<table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">country</th>
+        <th scope="col">city</th>
+        <th scope="col">postal code</th>
+        <th scope="col">street</th>
+        <th scope="col">distance [KM]</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @firestations.each do |firestation| %>
+        <tr>
+          <th scope="col"><%= firestation.country %></th>
+          <th scope="col"><%= firestation.city %></th>
+          <th scope="col"><%= firestation.postal_code %></th>
+          <th scope="col"><%= firestation.street %></th>
+          <th scope="col"><%= firestation.distance.round(2) %></th>
+        </tr>
+      <% end %>
+    </tbody>
+</table>
